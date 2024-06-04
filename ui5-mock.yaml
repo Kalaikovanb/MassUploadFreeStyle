@@ -1,0 +1,74 @@
+specVersion: "3.1"
+metadata:
+  name: com.worksheet.worksheet
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+        backend:
+          - path: /sap
+            url: http://103.194.234.38:8010
+            client: "100"
+            destination: Airdit_HANA
+          - path: /sap
+            url: http://103.194.234.38:8010
+            client: "100"
+            destination: Airdit_HANA
+          - path: /sap/opu/odata/sap/ZC_QU_DG_MATERIALREQUESTS_CDS
+            url: http://103.194.234.38:8010
+            client: "100"
+            destination: Airdit_HANA
+          - path: /sap/opu/odata/sap/ZP_QU_DG_CONFGREQ_CDS
+            url: http://103.194.234.38:8010
+            client: "100"
+            destination: Airdit_HANA
+          - path: /sap/opu/odata/sap/ZQU_DG_MATERIAL_MASS_UPLOAD_SRV
+            url: http://airdithana.airditsoftware.com:8010
+            client: "100"
+            destination: Airdit_HANA_R
+          - path: /sap/opu/odata/sap/ZC_QUDG_MATERIALMASSUPLOAD_CDS
+            url: http://airdithana.airditsoftware.com:8010
+            client: "100"
+            destination: Airdit_HANA_R
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: sap-fe-mockserver
+      beforeMiddleware: csp
+      configuration:
+        mountPath: /
+        services:
+          - urlPath: /sap/opu/odata/sap/ZP_QU_DG_CONFGREQ_CDS
+            generateMockData: true
+            metadataXmlPath: ./webapp/localService/ZP_QU_DG_CONFGREQ_CDS/metadata.xml
+            mockdataRootPath: ./webapp/localService/ZP_QU_DG_CONFGREQ_CDS/data
+          - urlPath: /sap/opu/odata/sap/ZC_QU_DG_MATERIALREQUESTS_CDS
+            generateMockData: true
+            metadataXmlPath: ./webapp/localService/ZC_QU_DG_MATERIALREQUESTS_CDS/metadata.xml
+            mockdataRootPath: ./webapp/localService/ZC_QU_DG_MATERIALREQUESTS_CDS/mockdata
+          - urlPath: /sap/opu/odata/sap/ZQU_DG_MATERIAL_MASS_UPLOAD_SRV
+            metadataPath: ./webapp/localService/ZQU_DG_MATERIAL_MASS_UPLOAD_SRV/metadata.xml
+            mockdataPath: ./webapp/localService/ZQU_DG_MATERIAL_MASS_UPLOAD_SRV/mockdata
+            generateMockData: true
+          - urlPath: /sap/opu/odata/sap/ZC_QUDG_MATERIALMASSUPLOAD_CDS
+            generateMockData: true
+            metadataXmlPath: ./webapp/localService/ZC_QUDG_MATERIALMASSUPLOAD_CDS/metadata.xml
+            mockdataRootPath: ./webapp/localService/ZC_QUDG_MATERIALMASSUPLOAD_CDS/mockdata
+        annotations:
+          - localPath: ./webapp/localService/ZC_QU_DG_MATERIALREQUESTS_CDS/ZC_QU_DG_MATERIALREQUESTS_CDS_Annotation.xml
+            urlPath: /destinations/Airdit_HANA/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZC_QU_DG_MATERIALREQUESTS_CD_VAN',Version='0001')/$value/
+          - localPath: ./webapp/localService/ZP_QU_DG_CONFGREQ_CDS/ZP_QU_DG_CONFGREQ_CDS_Annotation.xml
+            urlPath: /destinations/Airdit_HANA/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZP_QU_DG_CONFGREQ_CDS_VAN',Version='0001')/$value/
+          - localPath: ./webapp/localService/ZC_QUDG_MATERIALMASSUPLOAD_CDS/ZC_QUDG_MATERIALMASSUPLOAD_CDS_Annotation.xml
+            urlPath: /destinations/Airdit_HANA_R/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZC_QUDG_MATERIALMASSUPLOAD_C_VAN',Version='0001')/$value/

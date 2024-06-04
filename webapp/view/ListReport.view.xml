@@ -1,0 +1,45 @@
+<mvc:View
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    controllerName="com.worksheet.worksheet.controller.ListReport"
+    xmlns:l='sap.ui.layout'
+    xmlns:f='sap.ui.layout.form'
+    xmlns:core='sap.ui.core'
+    height="100%"
+>
+    <Shell id="shellList">
+        <App id="app">
+            <pages>
+                <Page
+                    id="page"
+                    title="{i18n>title}"
+                >
+                    <content>
+                        <IconTabBar
+                            id='ev'
+                            selectedKey="filter1"
+                            stretchContentHeight="true"
+                        >
+                            <items>
+                                <IconTabFilter
+                                    text="Material Type"
+                                    id="filter"
+                                >
+                                    <content>
+                                        <core:HTML 
+                                            id="iframeContainer"
+                                            content="{
+                                                path: 'BatchModel>/parent_reqId',
+                                                formatter: '.formatIframeSrc'
+                                            }"
+                                        />
+                                    </content>
+                                </IconTabFilter>
+                            </items>
+                        </IconTabBar>
+                    </content>
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>
