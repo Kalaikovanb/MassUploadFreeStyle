@@ -24,11 +24,6 @@ sap.ui.define(
         return materialType + " (" + materialTypeText + ")";
       },
       validMaterial:function(){
-        // var values=this.aSelectedKeys;
-        // this.MaterialType = this.getOwnerComponent().getModel('MaterialType');
-        // this.MaterialType.setData({
-        //   value:values
-        // });
         
         var hasDuplicates = new Set(this.aSelectedKeys).size !== this.aSelectedKeys.length;
 
@@ -36,7 +31,12 @@ sap.ui.define(
             sap.m.MessageBox.error("Error: Array contains duplicates");
         } else {
           let str = this.aSelectedKeys.join(',');
-        this.getOwnerComponent().getRouter().navTo("RouteMaterialList",{id:str});
+          if(str===''){
+            sap.m.MessageBox.error("Please Select atleast one material")
+            return
+          }else{
+            this.getOwnerComponent().getRouter().navTo("RouteMaterialList",{id:str});
+          }
         }
       },
 

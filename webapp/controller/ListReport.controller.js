@@ -21,7 +21,6 @@ sap.ui.define([
                 debugger            
                 this.reqid= oEvent.getParameters().arguments.id; 
                 this.refreshIframe();   
-                this.confirm=true;     
             }, 
             refreshIframe: function () {
                 var oHtmlControl = this.getView().byId("iframeContainer");
